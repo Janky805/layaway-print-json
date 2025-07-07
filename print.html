@@ -2,40 +2,47 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <title>Depuración Layaway</title>
+  <title>Recibo LayAway</title>
   <style>
-    body { font-family: monospace; padding:16px; }
-    code { background:#f4f4f4; display:block; padding:8px; margin:8px 0; }
+    body { font-family: monospace; margin:0; padding:8px; }
+    .receipt { width:280px; margin:auto; white-space: pre-wrap; }
+    .header { text-align:center; font-size:1.2em; font-weight:bold; }
+    .line   { border-top:1px dashed #000; margin:4px 0; }
+    .field  { display:flex; justify-content:space-between; }
+    .footer { text-align:center; margin-top:6px; font-size:0.9em; }
   </style>
+  <script>
+    // 1) Leer parámetros individuales
+    const p = new URLSearchParams(location.search);
+    const key   = p.get('layawaykey') || '';
+    const name  = p.get('name')       || '';
+    const phone = p.get('phone')      || '';
+    const date  = p.get('startdate')  || '';
+    const total = p.get('totalamt')   || '';
+    const notas = p.get('notas')      || '';
+
+    // 2) Construir bloque plano para RawBT
+    const block =
+`╔════════════════════╗
+║      LAYAWAY       ║
+╚════════════════════╝
+Key:       ${key}
+Cliente:   ${name}
+Teléfono:  ${phone}
+Fecha:     ${date}
+Monto:     S/${total}
+Notas:     ${notas}
+
+`;
+
+    // 3) Redirigir a RawBT _sin_ pintar más contenido
+    window.location.replace(
+      "rawbt://print?contentType=raw&content=" 
+      + encodeURIComponent(block)
+    );
+  </script>
 </head>
 <body>
-  <h2>🚧 Debug URL y Parámetros 🚧</h2>
-  <p><b>URL completa:</b></p>
-  <code id="full-url"></code>
-  <p><b>location.search:</b></p>
-  <code id="loc-search"></code>
-  <p><b>Parametros individuales:</b></p>
-  <ul>
-    <li>layawaykey: <span id="p-key"></span></li>
-    <li>name:       <span id="p-name"></span></li>
-    <li>phone:      <span id="p-phone"></span></li>
-    <li>startdate:  <span id="p-date"></span></li>
-    <li>totalamt:   <span id="p-total"></span></li>
-    <li>notas:      <span id="p-notas"></span></li>
-  </ul>
-  <script>
-    // Mostrar URL
-    document.getElementById('full-url').textContent = location.href;
-    document.getElementById('loc-search').textContent = location.search;
-
-    // Extraer params
-    const params = new URLSearchParams(location.search);
-    document.getElementById('p-key').textContent   = params.get('layawaykey');
-    document.getElementById('p-name').textContent  = params.get('name');
-    document.getElementById('p-phone').textContent = params.get('phone');
-    document.getElementById('p-date').textContent  = params.get('startdate');
-    document.getElementById('p-total').textContent = params.get('totalamt');
-    document.getElementById('p-notas').textContent = params.get('notas');
-  </script>
+  <!-- Este texto no se mostrará porque redirige al instante -->
 </body>
 </html>
