@@ -39,18 +39,16 @@
   </style>
   <script>
     window.onload = () => {
-      // 1) Leer el JSON pasado por URL
       const params = new URLSearchParams(location.search);
       let data = {};
       try {
         data = JSON.parse(decodeURIComponent(params.get("data")));
       } catch(e) {
         console.error("JSON inválido", e);
-        document.body.innerHTML = "<p style='color:red;'>Error leyendo datos</p>";
+        document.body.innerHTML = "<p>Error leyendo datos</p>";
         return;
       }
 
-      // 2) Extraer campos con nombres exactos
       const {
         LayawayKey = "",
         Name = "",
@@ -60,7 +58,6 @@
         Notas = ""
       } = data;
 
-      // 3) Construir recibo en texto plano
       const block = 
 `╔════════════════════╗
 ║      LAYAWAY       ║
@@ -77,10 +74,8 @@ Notas:     ${Notas}
 ║   nuestro servicio ║
 ╚════════════════════╝`;
 
-      // 4) Mostrar en la página (opcional, para debug)
       document.body.innerHTML = "<pre>" + block + "</pre>";
 
-      // 5) Enviar a RawBT automáticamente
       const uri = "rawbt://print?contentType=raw&content=" + encodeURIComponent(block);
       location.href = uri;
     };
