@@ -45,7 +45,7 @@
         data = JSON.parse(decodeURIComponent(params.get("data")));
       } catch(e) {
         console.error("JSON inválido", e);
-        document.body.innerHTML = "<p>Error leyendo datos</p>";
+        document.body.innerHTML = "<p style='color:red;'>Error leyendo datos</p>";
         return;
       }
 
