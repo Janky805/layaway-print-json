@@ -3,17 +3,22 @@
 <head>
   <meta charset="utf-8">
   <title>Recibo LayAway</title>
+  <style>
+    body { font-family: monospace; margin:0; padding:8px; }
+    .receipt { white-space: pre-wrap; }
+    .note { color: #888; font-size: 0.9em; margin-top:16px; }
+  </style>
   <script>
-    // 1) Leer el JSON que viene en "data"
+    // 1) Leer JSON
     const params = new URLSearchParams(location.search);
     let data = {};
     try {
       data = JSON.parse(decodeURIComponent(params.get("data")));
     } catch(e) {
-      console.error("JSON inválido", e);
+      data = { error: "JSON inválido o faltante" };
     }
 
-    // 2) Extraer campos con valores por defecto
+    // 2) Construir bloque
     const {
       LayawayKey = "",
       Name       = "",
@@ -22,8 +27,6 @@
       TotalAmt   = "",
       Notas      = ""
     } = data;
-
-    // 3) Construir el bloque plano para RawBT
     const block =
 `╔════════════════════╗
 ║      LAYAWAY       ║
@@ -37,27 +40,21 @@ Notas:     ${Notas}
 
 `;
 
-    // 4) URI sin slash extra tras "print"
-    const uri = "rawbt://print?contentType=raw&content=" + encodeURIComponent(block);
+    // 3) Mostrarlo en pantalla
+    document.addEventListener('DOMContentLoaded', () => {
+      document.body.innerHTML =
+        `<div class="receipt">${block}</div>` +
+        `<div class="note">Imprimiendo en 1 s…</div>`;
+    });
 
-    // 5) Redirigir instantáneamente sin mostrar nada más
-    window.location.replace(uri);
+    // 4) Lanzo RawBT tras 1 s
+    const uri = "rawbt://print?contentType=raw&content=" + encodeURIComponent(block);
+    setTimeout(() => {
+      window.location.href = uri;
+    }, 1000);
   </script>
-  <style>
-    /* Opcional: si tarda, veremos este mensaje */
-    body {
-      font-family: monospace;
-      text-align: center;
-      padding-top: 50px;
-    }
-  </style>
 </head>
 <body>
-  <p>Preparando impresión…</p>
-  <p>Si no ocurre nada, <a id="link" href="#">haz clic aquí</a>.</p>
-  <script>
-    // Fallback manual
-    document.getElementById('link').href = uri;
-  </script>
+  <!-- aparecerá el recibo generado aquí -->
 </body>
 </html>
