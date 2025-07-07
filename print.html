@@ -4,6 +4,41 @@
   <meta charset="utf-8">
   <title>Recibo LayAway</title>
   <style>
+    body {
+      font-family: monospace;
+      padding: 0;
+      margin: 0;
+      background: #fff;
+      color: #000;
+    }
+    .receipt {
+      width: 280px;
+      margin: auto;
+      padding: 8px;
+    }
+    .header {
+      text-align: center;
+      font-size: 1.2em;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+    .line {
+      border-top: 1px dashed #000;
+      margin: 4px 0;
+    }
+    .field {
+      display: flex;
+      justify-content: space-between;
+      margin: 2px 0;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 6px;
+      font-size: 0.9em;
+    }
+ </style>
+  <title>Recibo LayAway</title>
+  <style>
     /* (Opcional) estilos para la vista rápida en navegador */
     body { font-family: monospace; margin:0; padding:0; }
     .receipt { width:280px; margin:auto; padding:8px; }
@@ -43,7 +78,10 @@ Teléfono:  ${Phone}
 Fecha:     ${StartDate}
 Monto:     S/${TotalAmt}
 Notas:     ${Notas}
-
+╔════════════════════╗
+║   ¡Gracias! Vuelva ║
+║    Pronto         ║
+╚════════════════════╝
 `;
 
     // 4) Crear el URI sin slash extra después de "print"
