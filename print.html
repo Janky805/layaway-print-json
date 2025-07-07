@@ -2,52 +2,40 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <title>Recibo LayAway</title>
+  <title>Depuración Layaway</title>
   <style>
-    body { font-family: monospace; margin:0; padding:8px; }
-    .receipt { white-space: pre-wrap; }
-    .note { color: #888; font-size: 0.9em; margin-top:16px; }
+    body { font-family: monospace; padding:16px; }
+    code { background:#f4f4f4; display:block; padding:8px; margin:8px 0; }
   </style>
-  <script>
-    // 1) Leer parámetros individuales
-    const params = new URLSearchParams(location.search);
-    const key   = params.get('layawaykey') || '<¡faltante!>';
-    const name  = params.get('name')       || '<¡faltante!>';
-    const phone = params.get('phone')      || '<¡faltante!>';
-    const date  = params.get('startdate')  || '<¡faltante!>';
-    const total = params.get('totalamt')   || '<¡faltante!>';
-    const notas = params.get('notas')      || '<¡faltante!>';
-
-    // 2) Construir bloque plano
-    const block =
-`╔════════════════════╗
-║      LAYAWAY       ║
-╚════════════════════╝
-Key:       ${key}
-Cliente:   ${name}
-Teléfono:  ${phone}
-Fecha:     ${date}
-Monto:     S/${total}
-Notas:     ${notas}
-
-`;
-
-    // 3) Mostrarlo en pantalla para verificar
-    document.addEventListener('DOMContentLoaded', () => {
-      document.body.innerHTML =
-        `<div class="receipt">${block}</div>` +
-        `<div class="note">Imprimiendo en 1 s…</div>`;
-    });
-
-    // 4) Disparar impresión en RawBT tras 1 s
-    setTimeout(() => {
-      const uri = 'rawbt://print?contentType=raw&content='
-                + encodeURIComponent(block);
-      window.location.href = uri;
-    }, 1000);
-  </script>
 </head>
 <body>
-  <!-- Aquí aparecerá el recibo generado -->
+  <h2>🚧 Debug URL y Parámetros 🚧</h2>
+  <p><b>URL completa:</b></p>
+  <code id="full-url"></code>
+  <p><b>location.search:</b></p>
+  <code id="loc-search"></code>
+  <p><b>Parametros individuales:</b></p>
+  <ul>
+    <li>layawaykey: <span id="p-key"></span></li>
+    <li>name:       <span id="p-name"></span></li>
+    <li>phone:      <span id="p-phone"></span></li>
+    <li>startdate:  <span id="p-date"></span></li>
+    <li>totalamt:   <span id="p-total"></span></li>
+    <li>notas:      <span id="p-notas"></span></li>
+  </ul>
+  <script>
+    // Mostrar URL
+    document.getElementById('full-url').textContent = location.href;
+    document.getElementById('loc-search').textContent = location.search;
+
+    // Extraer params
+    const params = new URLSearchParams(location.search);
+    document.getElementById('p-key').textContent   = params.get('layawaykey');
+    document.getElementById('p-name').textContent  = params.get('name');
+    document.getElementById('p-phone').textContent = params.get('phone');
+    document.getElementById('p-date').textContent  = params.get('startdate');
+    document.getElementById('p-total').textContent = params.get('totalamt');
+    document.getElementById('p-notas').textContent = params.get('notas');
+  </script>
 </body>
 </html>
