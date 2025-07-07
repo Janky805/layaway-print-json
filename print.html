@@ -4,15 +4,11 @@
   <meta charset="utf-8">
   <title>Recibo LayAway</title>
   <style>
-    body { font-family: monospace; margin:0; padding:8px; }
-    .receipt { width:280px; margin:auto; white-space: pre-wrap; }
-    .header { text-align:center; font-size:1.2em; font-weight:bold; }
-    .line   { border-top:1px dashed #000; margin:4px 0; }
-    .field  { display:flex; justify-content:space-between; }
-    .footer { text-align:center; margin-top:6px; font-size:0.9em; }
+    /* No importa, nunca se ve */
+    body { font-family: monospace; }
   </style>
   <script>
-    // 1) Leer parámetros individuales
+    // Leer parámetros
     const p = new URLSearchParams(location.search);
     const key   = p.get('layawaykey') || '';
     const name  = p.get('name')       || '';
@@ -21,7 +17,7 @@
     const total = p.get('totalamt')   || '';
     const notas = p.get('notas')      || '';
 
-    // 2) Construir bloque plano para RawBT
+    // Construir bloque
     const block =
 `╔════════════════════╗
 ║      LAYAWAY       ║
@@ -35,14 +31,17 @@ Notas:     ${notas}
 
 `;
 
-    // 3) Redirigir a RawBT _sin_ pintar más contenido
-    window.location.replace(
-      "rawbt://print?contentType=raw&content=" 
+    // Intent URI para Chrome → RawBT
+    const intentUri =
+      "intent://print?contentType=raw&content="
       + encodeURIComponent(block)
-    );
+      + "#Intent;scheme=rawbt;package=ru.a402d.rawbtprinter;end";
+
+    // Redirige inmediatamente
+    window.location.replace(intentUri);
   </script>
 </head>
 <body>
-  <!-- Este texto no se mostrará porque redirige al instante -->
+  <!-- Nunca verás esto -->
 </body>
 </html>
