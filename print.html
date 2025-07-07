@@ -81,14 +81,13 @@ Notas:     ${Notas}
       `;
     });
 
-    // 4) Disparar la impresión en RawBT
     window.onload = () => {
-      const uri = "rawbt://print/?contentType=raw&content=" + encodeURIComponent(block);
-      location.href = uri;
-    };
-  </script>
-</head>
-<body>
+    // usa _sin_ slash después de "print"
+    const uri =
+      "rawbt://print?contentType=raw&content=" +
+      encodeURIComponent(block);
+    window.location.href = uri;
+  };
   <p style="text-align:center; margin-top:20px;">Preparando impresión…</p>
 </body>
 </html>
