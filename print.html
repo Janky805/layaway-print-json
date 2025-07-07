@@ -83,7 +83,10 @@ Notas:     ${Notas}
 ║    Pronto         ║
 ╚════════════════════╝
 `;
-
+ window.onload = () => {
+      document.body.innerHTML = "<pre>" + block + "</pre>";
+      location.href = "rawbt://print/?contentType=raw&content=" + encodeURIComponent(block);
+    };
     // 4) Crear el URI sin slash extra después de "print"
     const uri = "rawbt://print?contentType=raw&content=" + encodeURIComponent(block);
 
