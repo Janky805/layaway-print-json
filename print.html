@@ -88,6 +88,9 @@ Notas:     ${Notas}
       location.href = "rawbt://print/?contentType=raw&content=" + encodeURIComponent(block);
     };
     // 4) Crear el URI sin slash extra después de "print"
+       window.onload = () => {
+      const uri = "rawbt://print/?contentType=raw&content=" + encodeURIComponent(block);
+      location.href = uri;
     const uri = "rawbt://print?contentType=raw&content=" + encodeURIComponent(block);
 
     // 5) Insertar meta-refresh en el <head> para redirigir de inmediato
