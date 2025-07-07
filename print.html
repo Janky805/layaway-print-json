@@ -3,12 +3,8 @@
 <head>
   <meta charset="utf-8">
   <title>Recibo LayAway</title>
-  <style>
-    /* No importa, nunca se ve */
-    body { font-family: monospace; }
-  </style>
   <script>
-    // Leer parámetros
+    // 1) Obtener parámetros de la URL
     const p = new URLSearchParams(location.search);
     const key   = p.get('layawaykey') || '';
     const name  = p.get('name')       || '';
@@ -17,7 +13,7 @@
     const total = p.get('totalamt')   || '';
     const notas = p.get('notas')      || '';
 
-    // Construir bloque
+    // 2) Armar el bloque de texto plano
     const block =
 `╔════════════════════╗
 ║      LAYAWAY       ║
@@ -31,17 +27,19 @@ Notas:     ${notas}
 
 `;
 
-    // Intent URI para Chrome → RawBT
+    // 3) Construir el intent URI
     const intentUri =
-      "intent://print?contentType=raw&content="
-      + encodeURIComponent(block)
-      + "#Intent;scheme=rawbt;package=ru.a402d.rawbtprinter;end";
+      "intent://print?contentType=raw&content=" +
+      encodeURIComponent(block) +
+      "#Intent;scheme=rawbt;package=ru.a402d.rawbtprinter;end";
 
-    // Redirige inmediatamente
-    window.location.replace(intentUri);
+    // 4) Inyectar meta‐refresh para redirigir INMEDIATAMENTE
+    document.write(
+      `<meta http-equiv="refresh" content="0;url=${intentUri}">`
+    );
   </script>
 </head>
 <body>
-  <!-- Nunca verás esto -->
+  <!-- no hay nada que mostrar -->
 </body>
 </html>
