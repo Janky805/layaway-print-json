@@ -20,13 +20,14 @@
     } = data;
 
     const block = 
-`        
+`\n\n\n       
 
-   *** LAYAWAY RECEIPT ***
+
+    *** LAYAWAY RECEIPT ***
 ------------------------------
+Layaway #: ${LayawayKey}
 Cliente:   ${Name}
 Teléfono:  ${Phone}
-Layaway #: ${LayawayKey}
 Fecha:     ${StartDate}
 ------------------------------
 Monto total:     $${TotalAmt}
@@ -36,6 +37,7 @@ ${Notas}
 ------------------------------
    ¡Gracias por su compra!   
 `;
+
 
     // Mostrar en pantalla primero
     document.body.innerHTML = '<div class="receipt"><pre>' + block + '</pre></div>';
