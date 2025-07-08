@@ -2,39 +2,35 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <title>Recibo LayAway</title>
+  <title>Recibo Layaway</title>
   <style>
     body {
       font-family: monospace;
-      padding: 0;
       margin: 0;
-      background: #fff;
-      color: #000;
+      padding: 0;
+      background: white;
+      color: black;
     }
     .receipt {
-      width: 280px;
+      width: 260px;
       margin: auto;
-      padding: 8px;
+      padding: 10px;
     }
-    .header {
+    .center {
       text-align: center;
-      font-size: 1.2em;
-      font-weight: bold;
-      margin-bottom: 4px;
     }
     .line {
-      border-top: 1px dashed #000;
-      margin: 4px 0;
+      border-top: 1px dashed black;
+      margin: 6px 0;
     }
     .field {
       display: flex;
       justify-content: space-between;
       margin: 2px 0;
     }
-    .footer {
-      text-align: center;
-      margin-top: 6px;
-      font-size: 0.9em;
+    pre {
+      white-space: pre-wrap;
+      word-wrap: break-word;
     }
   </style>
   <script>
@@ -43,9 +39,9 @@
       let data = {};
       try {
         data = JSON.parse(decodeURIComponent(params.get("data")));
-      } catch(e) {
-        console.error("JSON inválido", e);
-        document.body.innerHTML = "<p style='color:red;'>Error leyendo datos</p>";
+      } catch (e) {
+        console.error("Error JSON:", e);
+        document.body.innerHTML = "<p>Error al leer los datos</p>";
         return;
       }
 
@@ -59,29 +55,30 @@
       } = data;
 
       const block = 
-`╔════════════════════╗
-║      LAYAWAY       ║
-╚════════════════════╝
-Key:       ${LayawayKey}
+`        *** LAYAWAY RECEIPT ***
+------------------------------
 Cliente:   ${Name}
 Teléfono:  ${Phone}
+Layaway #: ${LayawayKey}
 Fecha:     ${StartDate}
-Monto:     $${TotalAmt}
-Notas:     ${Notas}
+------------------------------
+Monto total:     $${TotalAmt}
+------------------------------
+Notas:
+${Notas}
+------------------------------
+   ¡Gracias por su compra!   
+`;
 
-╔════════════════════╗
-║ ¡Gracias por su    ║
-║      compra!        ║
-╚════════════════════╝`;
+      document.body.innerHTML = '<div class="receipt"><pre>' + block + '</pre></div>';
 
-      document.body.innerHTML = "<pre>" + block + "</pre>";
-
+      // Imprimir automáticamente con RawBT
       const uri = "rawbt://print?contentType=raw&content=" + encodeURIComponent(block);
       location.href = uri;
     };
   </script>
 </head>
 <body>
-  <p style="text-align:center; margin-top:20px;">Preparando impresión…</p>
+  <p class="center" style="margin-top:20px;">Preparando impresión...</p>
 </body>
 </html>
