@@ -19,23 +19,23 @@
       Notas = ""
     } = data;
 
-    const block = 
-`\n\n\n       
-
+const block = 
+`\n\n\n        
 
     *** LAYAWAY RECEIPT ***
+==============================
+  LAYAWAY #: ${LayawayKey}
+==============================
+Cliente:       ${Name}
+Teléfono:      ${Phone}
+Fecha:         ${StartDate}
 ------------------------------
-Layaway #: ${LayawayKey}
-Cliente:   ${Name}
-Teléfono:  ${Phone}
-Fecha:     ${StartDate}
-------------------------------
-Monto total:     $${TotalAmt}
+Monto total:   $${TotalAmt}
 ------------------------------
 Notas:
 ${Notas}
 ------------------------------
-   ¡Gracias por su compra!   
+   ¡Gracias por su compra!
 `;
 
 
